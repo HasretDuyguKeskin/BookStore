@@ -16,6 +16,6 @@ namespace ApplicationCore.Entities.Interface
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task<int> CountAsync(ISpecification<T> spec);
-        Task<T> FirstOfDefaultAsync(ISpecification<T> spec); 
+        Task<T> FirstOfDefaultAsync(ISpecification<T> spec);
     }
 }
