@@ -13,8 +13,8 @@ namespace ApplicationCore.Entities
         public decimal Price { get; set; }
         public string PictureUri { get; set; }
         public int CategoryId { get; set; }
-        public Product Category { get; set; }
+        public Category Category { get; set; }
         public int? AuthorId { get; set; }
-        public Product Author { get; set; }
+        public Author Author { get; set; }
     }
 }

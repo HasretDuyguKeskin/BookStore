@@ -15,4 +15,13 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ApplicationCore\ApplicationCore.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\uploads\" />
+  </ItemGroup>
+
 </Project>
