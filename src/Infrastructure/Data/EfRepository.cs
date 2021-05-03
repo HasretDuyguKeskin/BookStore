@@ -46,7 +46,7 @@ namespace Infrastructure.Data
             return await _dbContext.Set<T>().FindAsync(id);
         }
 
-        public async Task<List<T>> ListAllAsync()
+        public async Task<List<T>> ListAsync()
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
