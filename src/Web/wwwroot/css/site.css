@@ -89,10 +89,11 @@ body {
 }
 
 .product-name {
-    text-align:center;
-    font-size:.8rem;
-    font-weight:bold;
+    text-align: center;
+    font-size: .8rem;
+    font-weight: bold;
 }
+
 .author-name {
     text-align: center;
     font-size: .8rem;
@@ -101,4 +102,5 @@ body {
 .product-price {
     text-align: center;
     font-size: .8rem;
+    margin-bottom: .2rem;
 }
