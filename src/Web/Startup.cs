@@ -1,4 +1,6 @@
 using ApplicationCore.Entities.Interface;
+using ApplicationCore.Interfaces;
+using ApplicationCore.Services;
 using Infrastructure.Data;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
@@ -42,7 +44,9 @@ namespace Web
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+            services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IHomeViewModelService, HomeViewModelService>();
+            services.AddScoped<IBasketViewModelService, BasketViewModelService>();
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
