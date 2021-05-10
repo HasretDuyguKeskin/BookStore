@@ -1,19 +1,13 @@
-#Migrations
+# Migrations
 First set src/Infrastructure as default project in Package Manager Console
 
 Add-Migration InitialApp -OutputDir Data/Migrations -Context Infrastructure.Data.AppDbContext -StartupProject Web
-update-database -context AppDbContext
-
+Update-Database -Context Infrastructure.Data.AppDbContext
 
 Add-Migration InitialIdentity -OutputDir Identity/Migrations -Context Infrastructure.Identity.AppIdentityDbContext -StartupProject Web
-update-database -context AppIdentityDbContext
+Update-Database -Context Infrastructure.Identity.AppIdentityDbContext
 
-
-Add-Migration BasketOrderAdded -OutputDir Data/Migrations -Context Infrastructure.Data.AppDbContext -StartupProject Web
-update-database -context AppDbContext
-
-
-# Creating AntiForgoryToken In Views
+# Creating AntiForgeryToken In Views
 https://docs.microsoft.com/en-us/aspnet/core/security/anti-request-forgery?view=aspnetcore-5.0#javascript
 
 # Scaffold Identity Through Command-Line

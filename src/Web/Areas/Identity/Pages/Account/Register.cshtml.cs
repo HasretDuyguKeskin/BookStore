@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using ApplicationCore.Interfaces;
+using Web.Interfaces;
 
 namespace Web.Areas.Identity.Pages.Account
 {
@@ -25,19 +26,19 @@ namespace Web.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly IBasketService _basketService;
+        private readonly IBasketViewModelService _basketViewModelService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, IBasketService basketService)
+            IEmailSender emailSender, IBasketViewModelService basketViewModelService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _basketViewModelService = basketViewModelService;
             _logger = logger;
             _emailSender = emailSender;
-            _basketService = basketService;
         }
 
         [BindProperty]
@@ -103,11 +104,8 @@ namespace Web.Areas.Identity.Pages.Account
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         //transfer basket
-                        var anonId = Request.Cookies[Constants.BASKET_COOKIE_NAME];
-                        if (!string.IsNullOrEmpty(anonId))    
-                            await _basketService.TranspferBasketAsync(anonId, user.Id);
-                        Response.Cookies.Delete(Constants.BASKET_COOKIE_NAME);
-                        
+                        await _basketViewModelService.TransferBasketAsync(user.Id);
+
                         return LocalRedirect(returnUrl);
                     }
                 }

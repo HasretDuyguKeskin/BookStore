@@ -8,11 +8,15 @@ namespace Web.Interfaces
 {
     public interface IBasketViewModelService
     {
+        string GetBuyerId();
         string GetOrCreateBuyerId();
+
         Task<int> GetOrCreateBasketIdAsync();
 
-        Task<BasketItemsCountViewModel> GetBasketItemsCountViewModel(int basketId);
+        Task<BasketItemsCountViewModel> GetBasketItemsCountViewModel(int? basketId = null);
 
         Task<BasketViewModel> GetBasketViewModel();
+
+        Task TransferBasketAsync(string userId);
     }
 }
