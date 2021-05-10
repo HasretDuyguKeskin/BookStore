@@ -13,9 +13,12 @@ namespace ApplicationCore.Services
     public class BasketService : IBasketService
     {
         private readonly IAsyncRepository<BasketItem> _basketItemRepository;
-        public BasketService(IAsyncRepository<BasketItem> basketItemRepository)
+        private readonly IAsyncRepository<Basket> _basketRepository;
+
+        public BasketService(IAsyncRepository<BasketItem> basketItemRepository, IAsyncRepository<Basket> basketRepository)
         {
             _basketItemRepository = basketItemRepository;
+            _basketRepository = basketRepository;
         }
         public async Task AddItemBasket(int basketId, int productId, int quantity)
         {
@@ -49,6 +52,38 @@ namespace ApplicationCore.Services
             var item = await _basketItemRepository.FirstOfDefaultAsync(spec);
 
             await _basketItemRepository.DeleteAsync(item);
+        }
+
+        public async Task TranspferBasketAsync(string anonymousId, string userId)
+        {
+            var specAnon = new BasketWithItemsSpecification(anonymousId);
+            var basketAnon = await _basketRepository.FirstOfDefaultAsync(specAnon);
+            if (basketAnon == null || !basketAnon.Items.Any()) return;
+
+            var specUser = new BasketWithItemsSpecification(userId);
+            var basketUser = await _basketRepository.FirstOfDefaultAsync(specUser);
+            if (basketUser == null)
+                basketUser = await _basketRepository.AddAsync(new Basket() { BuyerId = userId });
+
+            foreach (BasketItem itemAnon in basketAnon.Items)
+            {
+                var itemUser = basketUser.Items.FirstOrDefault(x => x.ProductId == itemAnon.ProductId);
+
+                if (itemUser == null)
+                {
+                    basketUser.Items.Add(new BasketItem()
+                    {
+                        ProductId = itemAnon.ProductId,
+                        Quantity = itemAnon.Quantity
+                    });
+                }
+                else
+                {
+                    itemUser.Quantity += itemAnon.Quantity;
+                }
+            }
+            await _basketRepository.UpdateAsync(basketUser);
+            await _basketRepository.DeleteAsync(basketAnon);
         }
 
         public async Task UpdateBasketItem(int basketId, int basketItemId, int quantity)
