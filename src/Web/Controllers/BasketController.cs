@@ -85,10 +85,16 @@ namespace Web.Controllers
                 };
                 await _orderService.CreateOrderAsync(basketId, address);
                 //Delete the basket
+                await _basketService.DeleteBasketAsync(basketId);
+
                 return RedirectToAction("Success");
             }
             model.BasketItems = await _basketViewModelService.GetBasketItems();
             return View(model);
+        }
+        public IActionResult Success()
+        {
+            return View();
         }
     }
 }
