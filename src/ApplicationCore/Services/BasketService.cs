@@ -23,7 +23,7 @@ namespace ApplicationCore.Services
         public async Task AddItemBasket(int basketId, int productId, int quantity)
         {
             if (quantity < 1)
-                throw new NotImplementedException("Quantity can not be 'zero' or negative number.");
+                throw new ArgumentException("Quantity can not be 'zero' or negative number.");
 
             var spec = new BasketItemSpecification(basketId, productId);
             var basketItem = await _basketItemRepository.FirstOfDefaultAsync(spec);
